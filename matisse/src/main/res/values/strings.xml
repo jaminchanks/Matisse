@@ -39,4 +39,9 @@
     <string name="button_original">Original</string>
     <string name="button_sure_default">Sure</string>
     <string name="button_sure">Sure(%1$d)</string>
+    <string name="all_photos">全部图片</string>
+    <string name="always_stay_on_window">永远保留在窗口</string>
+    <string name="send">发送</string>
+    <string name="view_only_one_time">只许看一次</string>
+    <string name="view_two_times">只许看两次</string>
 </resources>

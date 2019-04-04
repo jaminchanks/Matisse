@@ -21,7 +21,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.zhihu.matisse.ui.MatisseActivity;
+import com.zhihu.matisse.ui.MatisseActivity2;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -82,7 +82,7 @@ public final class Matisse {
      * @return User selected media' {@link Uri} list.
      */
     public static List<Uri> obtainResult(Intent data) {
-        return data.getParcelableArrayListExtra(MatisseActivity.EXTRA_RESULT_SELECTION);
+        return data.getParcelableArrayListExtra(MatisseActivity2.EXTRA_RESULT_SELECTION);
     }
 
     /**
@@ -93,7 +93,7 @@ public final class Matisse {
      * @return User selected media path list.
      */
     public static List<String> obtainPathResult(Intent data) {
-        return data.getStringArrayListExtra(MatisseActivity.EXTRA_RESULT_SELECTION_PATH);
+        return data.getStringArrayListExtra(MatisseActivity2.EXTRA_RESULT_SELECTION_PATH);
     }
 
     /**
@@ -104,7 +104,7 @@ public final class Matisse {
      * @return Whether use original photo
      */
     public static boolean obtainOriginalState(Intent data) {
-        return data.getBooleanExtra(MatisseActivity.EXTRA_RESULT_ORIGINAL_ENABLE, false);
+        return data.getBooleanExtra(MatisseActivity2.EXTRA_RESULT_ORIGINAL_ENABLE, false);
     }
 
     /**

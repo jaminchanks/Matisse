@@ -34,6 +34,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -62,7 +63,7 @@ import java.util.ArrayList;
  * Main Activity to display albums and media content (images/videos) in each album
  * and also support media selecting operations.
  */
-public class MatisseActivity extends AppCompatActivity implements
+public class MatisseActivity2 extends AppCompatActivity implements
         AlbumCollection.AlbumCallbacks, AdapterView.OnItemSelectedListener,
         MediaSelectionFragment.SelectionProvider, View.OnClickListener,
         AlbumMediaAdapter.CheckStateListener, AlbumMediaAdapter.OnMediaClickListener,
@@ -85,6 +86,8 @@ public class MatisseActivity extends AppCompatActivity implements
     private TextView mButtonApply;
     private View mContainer;
     private View mEmptyView;
+    private ImageView mIvSend;
+    private TextView mTvImageSendType; //图片选择可见次数
 
     private LinearLayout mOriginalLayout;
     private CheckRadioView mOriginal;
@@ -101,7 +104,7 @@ public class MatisseActivity extends AppCompatActivity implements
             finish();
             return;
         }
-        setContentView(R.layout.activity_matisse);
+        setContentView(R.layout.activity_matisse_custom);
 
         if (mSpec.needOrientationRestriction()) {
             setRequestedOrientation(mSpec.orientation);
@@ -134,6 +137,12 @@ public class MatisseActivity extends AppCompatActivity implements
         mOriginalLayout = findViewById(R.id.originalLayout);
         mOriginal = findViewById(R.id.original);
         mOriginalLayout.setOnClickListener(this);
+
+        mIvSend = findViewById(R.id.iv_send);
+        mIvSend.setOnClickListener(this);
+
+        mTvImageSendType = findViewById(R.id.tv_image_send_type);
+        mTvImageSendType.setOnClickListener(this);
 
         mSelectedCollection.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -232,7 +241,7 @@ public class MatisseActivity extends AppCompatActivity implements
             result.putStringArrayListExtra(EXTRA_RESULT_SELECTION_PATH, selectedPath);
             setResult(RESULT_OK, result);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-                MatisseActivity.this.revokeUriPermission(contentUri,
+                MatisseActivity2.this.revokeUriPermission(contentUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             finish();
         }
@@ -307,7 +316,7 @@ public class MatisseActivity extends AppCompatActivity implements
             intent.putExtra(BasePreviewActivity.EXTRA_DEFAULT_BUNDLE, mSelectedCollection.getDataWithBundle());
             intent.putExtra(BasePreviewActivity.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable);
             startActivityForResult(intent, REQUEST_CODE_PREVIEW);
-        } else if (v.getId() == R.id.button_apply) {
+        } else if (v.getId() == R.id.iv_send) { //确定所选图片
             Intent result = new Intent();
             ArrayList<Uri> selectedUris = (ArrayList<Uri>) mSelectedCollection.asListOfUri();
             result.putParcelableArrayListExtra(EXTRA_RESULT_SELECTION, selectedUris);
@@ -332,8 +341,21 @@ public class MatisseActivity extends AppCompatActivity implements
             if (mSpec.onCheckedListener != null) {
                 mSpec.onCheckedListener.onCheck(mOriginalEnable);
             }
+        } else if (v.getId() == R.id.tv_image_send_type) {
+            //弹出窗口选择图片发送的可见次数类型
+
         }
     }
+
+
+    /**
+     * 弹出图片可见类型现在框
+     */
+    private void showVisibleTypeSelectDialog() {
+
+
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -361,7 +383,7 @@ public class MatisseActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 cursor.moveToPosition(mAlbumCollection.getCurrentSelection());
-                mAlbumsSpinner.setSelection(MatisseActivity.this,
+                mAlbumsSpinner.setSelection(MatisseActivity2.this,
                         mAlbumCollection.getCurrentSelection());
                 Album album = Album.valueOf(cursor);
                 if (album.isAll() && SelectionSpec.getInstance().capture) {
